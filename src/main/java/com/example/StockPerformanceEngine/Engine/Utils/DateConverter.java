@@ -1,27 +1,39 @@
-package com.example.StockPerformanceEngine.Engine.util;
+package com.example.StockPerformanceEngine.Engine.Utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public final class DateConverter {
+public class DateConverter {
 
-//    private static final DateTimeFormatter INPUT_FORMAT =
-//            DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    // -------- dd-MM-yyyy -> yyyyMMdd (int) --------
-    public static int toInt(String date, String inputFormat) {
-        LocalDate d = LocalDate.parse(date, DateTimeFormatter.ofPattern(inputFormat));
-        return d.getYear() * 10000
-                + d.getMonthValue() * 100
-                + d.getDayOfMonth();
+    public static int toInt(String dateString, String pattern) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+            LocalDate date = LocalDate.parse(dateString, formatter);
+
+            int year = date.getYear();
+            int month = date.getMonthValue();
+            int day = date.getDayOfMonth();
+
+            return year * 10000 + month * 100 + day;
+        } catch (Exception e) {
+            System.err.println("ERROR parsing date: '" + dateString + "' with pattern: '" + pattern + "'");
+            e.printStackTrace();
+            throw new RuntimeException("Failed to parse date", e);
+        }
     }
 
-    // -------- yyyyMMdd (int) -> formatted date --------
-    public static String fromInt(int yyyyMMdd, String outputPattern) {
-        int year  = yyyyMMdd / 10000;
-        int month = (yyyyMMdd % 10000) / 100;
-        int day   = yyyyMMdd % 100;
+    public static String intToDateString(int dateInt) {
+        if (dateInt == 0) {
+            throw new IllegalArgumentException("Cannot convert date value 0");
+        }
+
+        int year = dateInt / 10000;
+        int month = (dateInt % 10000) / 100;
+        int day = dateInt % 100;
 
         LocalDate date = LocalDate.of(year, month, day);
-        return date.format(DateTimeFormatter.ofPattern(outputPattern));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+
+        return date.format(formatter);
     }
 }

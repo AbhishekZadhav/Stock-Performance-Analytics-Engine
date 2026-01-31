@@ -1,71 +1,51 @@
 package com.example.StockPerformanceEngine.Engine.Config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
-@Component
-@ConfigurationProperties
+@ConfigurationProperties(prefix = "app")
 public class Config {
 
-    // -------- files --------
-    private String filesIds;
-    private String filesPrices;
-    private String filesOut;
+    private Files files = new Files();
+    private Job job = new Job();
+    private Csv csv = new Csv();
 
-    // -------- job --------
-    private String jobIntervals;
+    // ---------- getters ----------
+    public Files getFiles() { return files; }
+    public Job getJob() { return job; }
+    public Csv getCsv() { return csv; }
 
-    // -------- csv --------
-    private String csvDelimiter;
-    private String csvDate;
+    // ---------- nested classes ----------
 
-    // -------- getters & setters --------
+    public static class Files {
+        private String ids;
+        private String prices;
+        private String out;
 
-    public String getFilesIds() {
-        return filesIds;
+        public String getIds() { return ids; }
+        public void setIds(String ids) { this.ids = ids; }
+
+        public String getPrices() { return prices; }
+        public void setPrices(String prices) { this.prices = prices; }
+
+        public String getOut() { return out; }
+        public void setOut(String out) { this.out = out; }
     }
 
-    public void setFilesIds(String filesIds) {
-        this.filesIds = filesIds;
+    public static class Job {
+        private String intervals;
+
+        public String getIntervals() { return intervals; }
+        public void setIntervals(String intervals) { this.intervals = intervals; }
     }
 
-    public String getFilesPrices() {
-        return filesPrices;
-    }
+    public static class Csv {
+        private String delimiter;
+        private String date;
 
-    public void setFilesPrices(String filesPrices) {
-        this.filesPrices = filesPrices;
-    }
+        public String getDelimiter() { return delimiter; }
+        public void setDelimiter(String delimiter) { this.delimiter = delimiter; }
 
-    public String getFilesOut() {
-        return filesOut;
-    }
-
-    public void setFilesOut(String filesOut) {
-        this.filesOut = filesOut;
-    }
-
-    public String getJobIntervals() {
-        return jobIntervals;
-    }
-
-    public void setJobIntervals(String jobIntervals) {
-        this.jobIntervals = jobIntervals;
-    }
-
-    public String getCsvDelimiter() {
-        return csvDelimiter;
-    }
-
-    public void setCsvDelimiter(String csvDelimiter) {
-        this.csvDelimiter = csvDelimiter;
-    }
-
-    public String getCsvDate() {
-        return csvDate;
-    }
-
-    public void setCsvDate(String csvDate) {
-        this.csvDate = csvDate;
+        public String getDate() { return date; }
+        public void setDate(String date) { this.date = date; }
     }
 }
