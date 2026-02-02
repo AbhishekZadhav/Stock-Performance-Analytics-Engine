@@ -1,15 +1,20 @@
-FROM maven:3.9-eclipse-temurin-25 AS build
+# Use OpenJDK 25 as base image
+FROM openjdk:25-jdk-slim
+
+# Set working directory
 WORKDIR /app
 
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Copy the Maven build output (JAR file)
+COPY target/*.jar app.jar
 
-COPY src src
-RUN mvn clean package -DskipTests
+# Copy input files
+COPY input /app/input
 
-FROM eclipse-temurin:25-jre
-WORKDIR /app
+# Create output directory
+RUN mkdir -p /app/output
 
-COPY --from=build /app/target/*.jar app.jar
+# Expose port (if you add REST APIs later)
+EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
