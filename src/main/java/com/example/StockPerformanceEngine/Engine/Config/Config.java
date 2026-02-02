@@ -8,11 +8,13 @@ public class Config {
     private Files files = new Files();
     private Job job = new Job();
     private Csv csv = new Csv();
+    private Email email = new Email();
 
     // ---------- getters ----------
     public Files getFiles() { return files; }
     public Job getJob() { return job; }
     public Csv getCsv() { return csv; }
+    public Email getEmail(){return email;}
 
     // ---------- nested classes ----------
 
@@ -47,5 +49,30 @@ public class Config {
 
         public String getDate() { return date; }
         public void setDate(String date) { this.date = date; }
+    }
+
+    public static class Email{
+        private String subject;
+        private String to;
+        private String body;
+
+        public String getSubject(){return subject;}
+        public void setSubject(String subject){this.subject = subject;}
+
+        public String getBody() {
+            return body;
+        }
+
+        public void setBody(String body) {
+            this.body = body;
+        }
+
+        public String getTo() {
+            return to;
+        }
+
+        public void setTo(String to) {
+            this.to = to;
+        }
     }
 }
